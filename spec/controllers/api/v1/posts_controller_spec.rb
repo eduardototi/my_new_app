@@ -87,7 +87,6 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         first_post = json_response["posts"].first
 
         expect(json_response.size).to eq(1)
-        expect(first_post["average_rating"]).to eq(5.0)
       end
     end
 

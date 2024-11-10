@@ -7,10 +7,11 @@ class Post < ApplicationRecord
   scope :top_rated, ->(limit = 10) {
     joins(:ratings)
     .group("posts.id")
-    .select("posts.id, posts.title, posts.body, AVG(ratings.value) AS average_rating")
-    .order("average_rating DESC")
+    .select("posts.id, posts.title, posts.body")
+    .order("AVG(ratings.value) DESC")
     .limit(limit)
   }
+  
 
   scope :ip_with_multiple_posts, -> {
     joins(:user)
