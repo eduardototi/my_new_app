@@ -1,6 +1,4 @@
 require 'net/http'
-require 'json'
-require 'parallel'
 
 def create_post(login, title, body, ip)
   uri = URI("http://localhost:3000/api/v1/posts")
@@ -48,12 +46,12 @@ users = []
 created_posts = 0
 posts_to_create = 200_000
 
-Parallel.each(1..100, in_threads: 10) do |i|
+Parallel.each(1..100, in_threads: 30) do |i|
   login = Faker::Internet.unique.username
   users << login
 end
 
-puts "#{users.size} users created."
+puts "#{users.size} users created at #{Time.zone.now}."
 
 unique_titles = Array.new(2000) { Faker::Lorem.sentence(word_count: 3) }
 unique_bodies = Array.new(2000) { Faker::Lorem.paragraph }
@@ -69,13 +67,14 @@ end
 
 batch_size = 500
 
-Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 20) do |batch|
+Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
     response = create_post(post[:login], post[:title], post[:body], post[:ip])
     created_posts += 1 if response.is_a?(Net::HTTPSuccess)
+    
   end
 
-  puts "#{created_posts}/#{posts_to_create} posts created" if created_posts % (10 * batch_size) == 0
+  puts "#{created_posts}/#{posts_to_create} posts created at #{Time.zone.now}" if created_posts % (10 * batch_size) == 0
 end
 
 puts "#{Post.count} posts created successfully via API!"
@@ -87,7 +86,7 @@ ratings_to_create = (total_posts * 0.75).to_i
 posts_to_rate = Post.order("RANDOM()").limit(ratings_to_create)
 created_ratings = 0
 
-Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 20) do |batch|
+Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
     user_id = User.pluck(:id).sample
     response = create_rating(post.id, user_id)
@@ -95,7 +94,7 @@ Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 20) do 
     created_ratings += 1 if response.is_a?(Net::HTTPSuccess)
   end
 
-  puts "#{created_ratings}/#{ratings_to_create} ratings created" if created_ratings % (10 * batch_size) == 0
+  puts "#{created_ratings}/#{ratings_to_create} ratings created at #{Time.zone.now}" if created_ratings % (10 * batch_size) == 0
 end
 
-puts "#{User.count} users, #{Post.count} posts, #{Rating.count} ratings have been created successfully via API!"
+puts "#{User.count} users, #{Post.count} posts, #{Rating.count} ratings have been created at #{Time.zone.now} successfully via API!"
