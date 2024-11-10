@@ -47,6 +47,9 @@ This project uses the following technologies:
    ```bash
     bundle exec rspec -f d
     open coverage/index.html  # This can be used to view the test coverage of the application.
+5. Rubocp
+    ```bash
+    rubocop -A    
 ## API Endpoints
 
 The application exposes the following API endpoints:
