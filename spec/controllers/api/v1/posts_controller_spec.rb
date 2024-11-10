@@ -24,6 +24,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
         expect(response).to have_http_status(:created)
         json_response = response.parsed_body
+        expect(json_response[:user][:login]).to eq('john_doe')
       end
     end
 
@@ -37,6 +38,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
         expect(response).to have_http_status(:created)
         json_response = response.parsed_body
+        expect(json_response[:user][:login]).to eq('john_doe')
       end
     end
 
