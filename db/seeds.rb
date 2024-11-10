@@ -17,7 +17,9 @@ def create_post(login, title, body, ip)
   
   request = Net::HTTP::Post.new(uri.path, { 'Content-Type' => 'application/json' })
   request.body = {
-    login: login,
+    user: {
+      login: login
+    },
     title: title,
     body: body,
     ip: ip
@@ -44,19 +46,25 @@ end
 
 puts 'Creating Users and Posts via API'
   ips = 50.times.map { Faker::Internet.ip_v4_address }
+  created_users = 0
 
-  100.times do |i|
+  while created_users < 100
     login = Faker::Internet.unique.username
     title = Faker::Lorem.sentence(word_count: 3)
     body = Faker::Lorem.paragraph
     ip = ips.sample
-
-    create_post(login, title, body, ip)
+  
+    response = create_post(login, title, body, ip)
+  
+    if response.is_a?(Net::HTTPSuccess)
+      created_users += 1
+      puts "Created #{created_users}/100 user and posts"
+    end
   end
 
 puts "#{User.count} users created"
   users = User.pluck(:login)
-  total_posts = 199_900
+  total_posts = 900
   max_threads = [100, total_posts / 10].min
 
   posts = Array.new(total_posts) do
@@ -68,8 +76,16 @@ puts "#{User.count} users created"
     }
   end
 
-  Parallel.each(posts, in_threads: 10) do |post|
+  created_posts = 100
+
+  Parallel.each(posts, in_threads: 20) do |post|
     create_post(post[:login], post[:title], post[:body], post[:ip])
+
+    created_posts += 1
+  
+    if created_posts % 100 == 0
+      puts "#{created_posts} posts created"
+    end
   end
 
 puts "#{Post.count} posts created"
@@ -78,12 +94,17 @@ puts 'Creating Rartings'
   total_posts = Post.count
   ratings_to_create = (total_posts * 0.75).to_i
   posts_to_rate = Post.order("RANDOM()").limit(ratings_to_create)
+  created_ratings = 0
 
-  Parallel.each(posts_to_rate, in_threads: 10) do |post|
+  Parallel.each(posts_to_rate, in_threads: 20) do |post|
     user_id = User.pluck(:id).sample
     create_rating(post.id, user_id)
+
+    created_ratings += 1
+  
+    if created_ratings % 100 == 0
+      puts "#{created_ratings} ratings created"
+    end
   end
   
-puts "#{User.count} users, #{Post.count} posts, #{Rating.count} rating have been created successfully via API!"
-
-
+puts "#{User.count} users, #{Post.count} posts, #{Rating.count} ratings have been created successfully via API!"
