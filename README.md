@@ -173,7 +173,7 @@ The application exposes the following API endpoints:
               "valorie.okuneva"
           ]
       }
-### 4. **GET /posts/top_rated_posts?n=5**
+### 4. **GET /posts/top_rated?n=5**
 - **Description**: List posts with the best ratings. By default, this endpoint will return the top 10 rated posts. You can modify the number of posts returned by sending a query parameter `n` with the desired number of posts.
   
 - **Query Parameter**:
@@ -182,13 +182,13 @@ The application exposes the following API endpoints:
 - **Example Request using `curl`**:
     To get the top 5 rated posts:
     ```bash
-    curl --location 'http://localhost:3000/api/v1/posts/top_rated_posts?n=5'
+    curl --location 'http://localhost:3000/api/v1/posts/top_rated?n=5'
     ```
     This will return the top 5 rated posts.
 
     To get the default 10 top-rated posts (without specifying `n`):
     ```bash
-    curl --location 'http://localhost:3000/api/v1/posts/top_rated_posts'
+    curl --location 'http://localhost:3000/api/v1/posts/top_rated'
     ```
 
 - **Response**:
