@@ -45,10 +45,12 @@ ips = 50.times.map { Faker::Internet.ip_v4_address }
 users = []
 created_posts = 0
 posts_to_create = 200_000
+users = Array.new(100) { Faker::Internet.unique.username }
 
-Parallel.each(1..100, in_threads: 30) do |i|
-  login = Faker::Internet.unique.username
-  users << login
+while created_posts < 100
+  user = users[created_posts % users.size]
+  response = create_post(user, Faker::Lorem.sentence(word_count: 3), Faker::Lorem.paragraph, ips.sample)
+  created_posts += 1 if response.is_a?(Net::HTTPSuccess)
 end
 
 puts "#{users.size} users created at #{Time.zone.now}."
@@ -71,7 +73,6 @@ Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
     response = create_post(post[:login], post[:title], post[:body], post[:ip])
     created_posts += 1 if response.is_a?(Net::HTTPSuccess)
-    
   end
 
   puts "#{created_posts}/#{posts_to_create} posts created at #{Time.zone.now}" if created_posts % (10 * batch_size) == 0
@@ -90,7 +91,6 @@ Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 30) do 
   batch.each do |post|
     user_id = User.pluck(:id).sample
     response = create_rating(post.id, user_id)
-    
     created_ratings += 1 if response.is_a?(Net::HTTPSuccess)
   end
 
