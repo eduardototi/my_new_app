@@ -27,7 +27,7 @@ RSpec.describe Api::V1::RatingsController, type: :controller do
       end
     end
 
-    context 'with invalid attributes (user has already rated the post)' do
+    context 'with valid attributes (user has already rated the post)' do
       it 'does not create a duplicate rating for the same user' do
         create(:rating, user: user, post: post_record, value: 4)
 
@@ -37,6 +37,18 @@ RSpec.describe Api::V1::RatingsController, type: :controller do
 
         json_response = response.parsed_body
         expect(json_response['errors']).to include("User has already rated this post.")
+      end
+
+      it 'ensures only one rating per user per post under simulated concurrent requests' do
+        10.times do
+          post :create, params: { rating: valid_attributes }
+        end
+
+        post_record.reload
+
+        expect(post_record.ratings.where(user_id: user.id).count).to eq(1)
+
+        expect(post_record.average_rating).to eq(4)
       end
     end
 
