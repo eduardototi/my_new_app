@@ -27,6 +27,19 @@ RSpec.describe Api::V1::RatingsController, type: :controller do
       end
     end
 
+    context 'with invalid attributes (user has already rated the post)' do
+      it 'does not create a duplicate rating for the same user' do
+        create(:rating, user: user, post: post_record, value: 4)
+
+        expect {
+          post :create, params: { rating: valid_attributes }
+        }.not_to change(Rating, :count)
+
+        json_response = response.parsed_body
+        expect(json_response['errors']).to include("User has already rated this post.")
+      end
+    end
+
     context 'with invalid attributes' do
       it 'does not create a new rating' do
         expect {
