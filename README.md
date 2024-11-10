@@ -115,18 +115,11 @@ The application exposes the following API endpoints:
       "value": 5
     }
     ```
-- **Response**: Returns the updated post with new rating.
+- **Response**: Returns the rating with post average rating.
     ```json
     {
-      "rating": {
-          "id": "e5179382-0e31-4a44-9a2d-49c945030998",
-          "post_id": "ff76bfb1-6c68-40d7-ad6b-7215514368be",
-          "user_id": "fd1cb3d0-e48f-4ece-8b1d-1c43755ae500",
-          "value": 5,
-          "created_at": "2024-11-10T12:57:15.681Z",
-          "updated_at": "2024-11-10T12:57:15.681Z"
-        },
-      "average_rating": 5
+        "post_id": "fffff649-dee0-492d-827f-57b8fdbe4fe4",
+        "average_rating": 3
     }
     ```
 

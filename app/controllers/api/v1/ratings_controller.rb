@@ -4,7 +4,7 @@ class Api::V1::RatingsController < ApplicationController
   def create
     with_transaction do
       @rating = Rating.create!(rating_params)
-      render json: { rating: @rating, average_rating: @rating.post.average_rating }, status: :created
+      render json: {post_id: @rating.post_id, average_rating: @rating.post.average_rating }, status: :created
     end
   end
 
