@@ -22,7 +22,7 @@ RSpec.describe Api::V1::RatingsController, type: :controller do
         expect(response).to have_http_status(:created)
         json_response = response.parsed_body
 
-        expect(json_response['rating']['value']).to eq(valid_attributes[:value])
+        expect(json_response['post_id']).to eq(valid_attributes[:post_id])
         expect(json_response['average_rating']).to eq(post_record.reload.average_rating)
       end
     end
