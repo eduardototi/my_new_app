@@ -35,6 +35,12 @@ def create_rating(post_id, user_id)
   http.request(request)
 end
 
+puts 'Cleaning up the database'
+  Rating.delete_all
+  Post.delete_all
+  User.delete_all
+puts 'Database cleaned up'
+
 puts 'Creating Users and Posts via API'
 
 ips = 50.times.map { Faker::Internet.ip_v4_address }
@@ -49,8 +55,8 @@ end
 
 puts "#{users.size} users created."
 
-unique_titles = Array.new(20000) { Faker::Lorem.sentence(word_count: 3) }
-unique_bodies = Array.new(20000) { Faker::Lorem.paragraph }
+unique_titles = Array.new(2000) { Faker::Lorem.sentence(word_count: 3) }
+unique_bodies = Array.new(2000) { Faker::Lorem.paragraph }
 
 posts = Array.new(posts_to_create) do
   {
@@ -63,12 +69,10 @@ end
 
 batch_size = 500
 
-Parallel.each(posts.in_groups_of(batch_size), in_threads: 20) do |batch|
+Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 20) do |batch|
   batch.each do |post|
     response = create_post(post[:login], post[:title], post[:body], post[:ip])
-    if response.is_a?(Net::HTTPSuccess)
-      created_posts += 1
-    end
+    created_posts += 1 if response.is_a?(Net::HTTPSuccess)
   end
 
   puts "#{created_posts}/#{posts_to_create} posts created" if created_posts % (10 * batch_size) == 0
@@ -83,16 +87,15 @@ ratings_to_create = (total_posts * 0.75).to_i
 posts_to_rate = Post.order("RANDOM()").limit(ratings_to_create)
 created_ratings = 0
 
-Parallel.each(posts_to_rate.in_groups_of(batch_size), in_threads: 20) do |batch|
-  batch.each do |post| 
+Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 20) do |batch|
+  batch.each do |post|
     user_id = User.pluck(:id).sample
-    create_rating(post.id, user_id)
-  
+    response = create_rating(post.id, user_id)
     
     created_ratings += 1 if response.is_a?(Net::HTTPSuccess)
   end
-  
-  puts "#{created_ratings}/#{posts_to_rate} ratings created" if created_ratings % (10 * batch_size) == 0
+
+  puts "#{created_ratings}/#{ratings_to_create} ratings created" if created_ratings % (10 * batch_size) == 0
 end
 
 puts "#{User.count} users, #{Post.count} posts, #{Rating.count} ratings have been created successfully via API!"
