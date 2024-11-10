@@ -85,16 +85,22 @@ The application exposes the following API endpoints:
 - **Response**: Returns the created post.
     ```json
     {
-      "posts": {
-          "id": "7ab55ed9-eb33-47e1-a796-c11a981c1371",
-          "user_id": "463cefb4-d6ab-4ddd-864a-300b367e1832",
-          "title": "Meu titulo",
-          "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vestibulum quam cursus pharetra vehicula. Aliquam euismod sodales scelerisque. Aenean aliquam, justo sit amet fermentum sagittis, quam ipsum lobortis velit, quis feugiat sem lore faucibus metus. Cras aliquam posuere metus, elementum ultricies ipsum eleifend a. Vivamus sagittis diam eu nisi euismod tincidunt. Cras non felis tortor. Maecenas aliquam dui dui, sed vulputate erat venenatis in.",
-          "ip": "123.456",
-          "created_at": "2024-11-10T12:54:28.077Z",
-          "updated_at": "2024-11-10T12:54:28.077Z"
-      }
-  }
+        "posts": {
+            "id": "d138c246-c873-4cf6-89e6-a856e3576bfe",
+            "user_id": "39ab3b5a-1508-4b9a-83e9-0c26e6148d81",
+            "title": "Meu titulo",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vestibulum quam cursus pharetra vehicula. Aliquam euismod sodales scelerisque. Aenean aliquam, justo sit amet fermentum sagittis, quam ipsum lobortis velit, quis feugiat sem lore faucibus metus. Cras aliquam posuere metus, elementum ultricies ipsum eleifend a. Vivamus sagittis diam eu nisi euismod tincidunt. Cras non felis tortor. Maecenas aliquam dui dui, sed vulputate erat venenatis in.",
+            "ip": "123.456",
+            "created_at": "2024-11-10T22:07:48.622Z",
+            "updated_at": "2024-11-10T22:07:48.622Z"
+        },
+        "user": {
+            "id": "39ab3b5a-1508-4b9a-83e9-0c26e6148d81",
+            "login": "john_doe",
+            "created_at": "2024-11-10T22:06:55.883Z",
+            "updated_at": "2024-11-10T22:06:55.883Z"
+        }
+    }
     ```
 
 ### 2. **POST api/v1/ratings/**

@@ -50,7 +50,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def render_json_response(resource, status)
-    render json: { posts: resource }, status: status
+    render json: { posts: resource, user: resource.user  }, status: status
   end
 
   def render_json_error(resource, status)
