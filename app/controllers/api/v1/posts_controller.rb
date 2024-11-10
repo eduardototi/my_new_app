@@ -15,7 +15,7 @@ class Api::V1::PostsController < ApplicationController
     posts = Post.top_rated(n)
 
     if posts.any?
-      render_json_response(posts, :ok)
+      render json: { posts: posts }, status: :ok
     else
       render_json_error("No posts found", :not_found)
     end
