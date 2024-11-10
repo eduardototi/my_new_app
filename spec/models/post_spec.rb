@@ -29,6 +29,16 @@ RSpec.describe Post, type: :model do
     it 'limits the number of posts returned' do
       expect(Post.top_rated(1).to_a.count).to eq(1)
     end
+
+    it 'returns an empty array when there are no posts' do
+      Post.destroy_all
+      expect(Post.top_rated).to eq([])
+    end
+
+    it 'returns posts with average rating when ratings are present' do
+      post_with_no_ratings = create(:post)
+      expect(Post.top_rated).not_to include(post_with_no_ratings)
+    end
   end
 
   describe '#average_rating' do
@@ -42,16 +52,6 @@ RSpec.describe Post, type: :model do
     it 'returns 0 if there are no ratings' do
       post = create(:post)
       expect(post.average_rating).to eq(0)
-    end
-
-    it 'returns an empty array when there are no posts' do
-      Post.destroy_all
-      expect(Post.top_rated).to eq([])
-    end
-
-    it 'returns posts with average rating when ratings are present' do
-      post_with_no_ratings = create(:post)
-      expect(Post.top_rated).not_to include(post_with_no_ratings)
     end
   end
 end
