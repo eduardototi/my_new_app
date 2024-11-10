@@ -26,15 +26,24 @@ This project uses the following technologies:
    ```bash
     git clone git@github.com:eduardototi/my_new_app.git
     cd my_new_app
-2. Install dependencies: 
+2. Install dependencies:
    ```bash
     bundle install
-3. Configure DB:
+3. Configure the `.env` file:
+   - Create a `.env` file in the root of the project and add your environment variables.
+   - Example of the `.env` file:
+   ```bash
+    touch .env
+
+    NEW_APP_DATABASE_USERNAME=your_database_username
+    NEW_APP_DATABASE_PASSWORD=your_database_password
+    NEW_APP_DATABASE_HOST=localhost
+4. Configure DB:
    ```bash
     rails db:create
     rails db:migrate 
     rails db:seed
-4. Tests cases:
+5. Tests cases:
    ```bash
     bundle exec rspec -f d
     open coverage/index.html  # This can be used to view the test coverage of the application.
