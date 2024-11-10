@@ -11,7 +11,7 @@ class Post < ApplicationRecord
     .order("AVG(ratings.value) DESC")
     .limit(limit)
   }
-  
+
 
   scope :ip_with_multiple_posts, -> {
     joins(:user)
