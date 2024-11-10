@@ -192,32 +192,27 @@ The application exposes the following API endpoints:
           {
               "id": "ff37d850-3767-41fb-b8d6-28d63cdc9f8e",
               "title": "Perspiciatis voluptas consectetur.",
-              "body": "Soluta officia eos. Ipsa adipisci non. Accusamus doloribus nobis.",
-              "average_rating": 5
+              "body": "Soluta officia eos. Ipsa adipisci non. Accusamus doloribus nobis."
           },
           {
               "id": "a77a974b-bf0a-4eba-a6aa-a44a8eebaadb",
               "title": "Et cupiditate reprehenderit.",
-              "body": "Quae aut maiores. Quia quod est. Doloribus omnis vel.",
-              "average_rating": 4
+              "body": "Quae aut maiores. Quia quod est. Doloribus omnis vel."
           },
           {
               "id": "e357406a-25b0-44da-95da-af329b2f2d31",
               "title": "Illo rem ratione.",
-              "body": "Omnis qui sapiente. Recusandae porro maxime. Voluptate illum ut.",
-              "average_rating": 3
+              "body": "Omnis qui sapiente. Recusandae porro maxime. Voluptate illum ut."
           },
           {
               "id": "4d54ee20-344d-4e1b-9700-afe318ab99f7",
               "title": "Doloremque deserunt et.",
-              "body": "Asperiores maiores qui. Porro perspiciatis sint. Dolores possimus harum.",
-              "average_rating": 2
+              "body": "Asperiores maiores qui. Porro perspiciatis sint. Dolores possimus harum."
           },
           {
               "id": "e3b9a05c-3802-49ef-88cb-90b720e6822e",
               "title": "Dignissimos autem maxime.",
-              "body": "Reprehenderit rerum dolorum. Sapiente ut est. Nisi earum architecto.",
-              "average_rating": 1
+              "body": "Reprehenderit rerum dolorum. Sapiente ut est. Nisi earum architecto."
           }
       ]
   }
