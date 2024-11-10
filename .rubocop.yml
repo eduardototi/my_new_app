@@ -1,0 +1,28 @@
+inherit_from: .rubocop_todo.yml
+
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'node_modules/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 20
