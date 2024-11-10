@@ -22,6 +22,8 @@ class Post < ApplicationRecord
   }
 
   def average_rating
+    return 0 if ratings.count.zero?
+    
     ratings.sum(:value) / ratings.count
   end
 end
