@@ -71,7 +71,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
   end
 
-  describe 'GET #top_rated_posts' do
+  describe 'GET #top_rated' do
     context 'with top rated posts' do
       let!(:user)   { create(:user, login: 'john_doe_2') }
       let!(:post_1) { create(:post, user: user) }
@@ -80,7 +80,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       let!(:rating_2) { create(:rating, post: post_2, value: 1) }
 
       it 'returns top rated posts' do
-        get :top_rated_posts, params: { n: 2 }
+        get :top_rated, params: { n: 2 }
 
         expect(response).to have_http_status(:ok)
         json_response = response.parsed_body
@@ -92,7 +92,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     context 'without top rated posts' do
       it 'returns no posts found' do
-        get :top_rated_posts, params: { n: 2 }
+        get :top_rated, params: { n: 2 }
 
         expect(response).to have_http_status(:not_found)
         json_response = response.parsed_body
@@ -102,15 +102,15 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe "#render_json_response" do
-    let(:posts) { [ create(:post) ] }
+    let(:post) { create(:post) }
     let(:status) { :ok }
 
     it "renders the correct JSON response" do
       allow(controller).to receive(:render)
-      controller.send(:render_json_response, posts, status)
 
+      controller.send(:render_json_response, post, status)
       expect(controller).to have_received(:render).with(
-        json: { posts: posts },
+        json: { posts: post, user: post.user },  # Esperando o post e seu user
         status: status
       )
     end
