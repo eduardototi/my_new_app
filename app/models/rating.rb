@@ -3,5 +3,5 @@ class Rating < ApplicationRecord
   belongs_to :post
 
   validates :value, presence: true, inclusion: { in: 1..5 }
-  validates :user_id, uniqueness: { scope: :post_id, message: "has already rated this post." }
+  validates :user_id, uniqueness: { scope: :post_id, message: I18n.t("already_rated") }
 end
