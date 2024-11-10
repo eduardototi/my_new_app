@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       resources :posts, only: [:create] do
         collection do
           get 'ips_list'
-          get 'top_rated_posts'
+          get 'top_rated'
         end
       end
       resources :ratings, only: [:create]

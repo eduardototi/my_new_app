@@ -10,7 +10,7 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
-  def top_rated_posts
+  def top_rated
     n = params[:n].present? ? params[:n].to_i : 10
     posts = Post.top_rated(n)
 
