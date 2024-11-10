@@ -22,8 +22,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
-gem 'faker'
 gem 'parallel'
+gem 'dotenv-rails', groups: [ :development, :test ]
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'faker'
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
   gem 'pry-rails'

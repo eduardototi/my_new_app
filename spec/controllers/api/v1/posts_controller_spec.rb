@@ -3,11 +3,17 @@ require 'rails_helper'
 RSpec.describe Api::V1::PostsController, type: :controller do
   describe 'POST #create' do
     let(:valid_attributes) do
-      { post: { title: 'Title', body: 'Body', ip: '123.234.345', login: 'john_doe' } }
+      {
+        post: { title: 'Title', body: 'Body', ip: '123.234.345' },
+        user: { login: 'john_doe' }
+      }
     end
 
     let(:invalid_attributes) do
-      { post: { title: 'Title', body: 'Body', ip: '123.234.345' } }
+      {
+        post: { title: 'Title', body: 'Body', ip: '123.234.345' },
+        user: { login: nil }
+      }
     end
 
     context 'with valid attributes and user does not exists' do

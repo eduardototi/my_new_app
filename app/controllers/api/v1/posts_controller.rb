@@ -50,7 +50,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def user_params
-    params.require(:post).permit(:login)
+    params.require(:user).permit(:login)
   end
 
   def record_invalid(e)
