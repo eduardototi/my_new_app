@@ -43,5 +43,15 @@ RSpec.describe Post, type: :model do
       post = create(:post)
       expect(post.average_rating).to eq(0)
     end
+
+    it 'returns an empty array when there are no posts' do
+      Post.destroy_all
+      expect(Post.top_rated).to eq([])
+    end
+
+    it 'returns posts with average rating when ratings are present' do
+      post_with_no_ratings = create(:post)
+      expect(Post.top_rated).not_to include(post_with_no_ratings)
+    end
   end
 end
