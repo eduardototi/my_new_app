@@ -38,5 +38,10 @@ RSpec.describe Post, type: :model do
     it 'returns the average rating of the post' do
       expect(post.average_rating).to eq(4)
     end
+
+    it 'returns 0 if there are no ratings' do
+      post = create(:post)
+      expect(post.average_rating).to eq(0)
+    end
   end
 end
