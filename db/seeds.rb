@@ -83,12 +83,13 @@ ratings_to_create = (total_posts * 0.75).to_i
 posts_to_rate = Post.order("RANDOM()").limit(ratings_to_create)
 created_ratings = 0
 
-Parallel.each(posts_to_rate.in_groups_of(batch_size), in_threads: 20) do |post|
-  user_id = User.pluck(:id).sample
-  create_rating(post.id, user_id)
+Parallel.each(posts_to_rate.in_groups_of(batch_size), in_threads: 20) do |batch|
+  batch.each do |post| 
+    user_id = User.pluck(:id).sample
+    create_rating(post.id, user_id)
   
-  if response.is_a?(Net::HTTPSuccess)
-    created_ratings += 1
+    
+    created_ratings += 1 if response.is_a?(Net::HTTPSuccess)
   end
   
   puts "#{created_ratings}/#{posts_to_rate} ratings created" if created_ratings % (10 * batch_size) == 0
