@@ -12,6 +12,14 @@ class Post < ApplicationRecord
     .limit(limit)
   }
 
+  scope :ip_with_multiple_posts, -> {
+    joins(:user)
+    .select("posts.ip, array_agg(DISTINCT users.login) AS author_logins")
+    .group("posts.ip")
+    .having("COUNT(posts.id) > 1")
+    .order("posts.ip")
+  }
+
   def average_rating
     ratings.sum(:value) / ratings.count
   end

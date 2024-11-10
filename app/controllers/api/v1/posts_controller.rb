@@ -22,20 +22,12 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def ips_list
-    ips_with_authors = ips_with_authors_query
+    ips_with_authors = Post.ip_with_multiple_posts
 
     render json: ips_with_authors.as_json(except: [ :id ]), status: :ok
   end
 
   private
-
-  def ips_with_authors_query
-    Post.joins(:user)
-      .select("posts.ip, array_agg(DISTINCT users.login) AS author_logins")
-      .group("posts.ip")
-      .having("COUNT(posts.id) > 1")
-      .order("posts.ip")
-  end
 
   def create_post
     @post = @user.posts.build(post_params)
