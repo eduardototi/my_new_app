@@ -51,7 +51,7 @@ The application exposes the following API endpoints:
       --header 'Content-Type: application/json' \
       --data '{
           "user": {
-              "login": "joazinho"
+              "login": "john_doe"
           },
           "title": "Meu titulo",
           "ip":"123.456",
