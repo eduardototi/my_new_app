@@ -4,15 +4,15 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   describe 'POST #create' do
     let(:valid_attributes) do
       {
-        post: { title: 'Title', body: 'Body', ip: '123.234.345' },
-        user: { login: 'john_doe' }
+        post: { title: 'Title', body: 'Body' },
+        user: { login: 'john_doe', ip: '123.234.345' }
       }
     end
 
     let(:invalid_attributes) do
       {
-        post: { title: 'Title', body: 'Body', ip: '123.234.345' },
-        user: { login: nil }
+        post: { title: 'Title', body: 'Body' },
+        user: { login: nil, ip: '123.234.345' }
       }
     end
 
