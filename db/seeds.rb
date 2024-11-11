@@ -1,17 +1,17 @@
 require 'net/http'
 
-def create_post(login, title, body, ip)
+def create_post(user: ,title: , body:)
   uri = URI("http://localhost:3000/api/v1/posts")
   http = Net::HTTP.new(uri.host, uri.port)
 
   request = Net::HTTP::Post.new(uri.path, { 'Content-Type' => 'application/json' })
   request.body = {
     user: {
-      login: login
+      login: user[:login],
+      ip: user[:ip]
     },
     title: title,
-    body: body,
-    ip: ip
+    body: body
   }.to_json
 
   http.request(request)
@@ -44,12 +44,12 @@ puts 'Creating Users and Posts via API'
 ips = 50.times.map { Faker::Internet.ip_v4_address }
 users = []
 created_posts = 0
-posts_to_create = 200_000
-users = Array.new(100) { Faker::Internet.unique.username }
+posts_to_create = 200
+users = Array.new(100) { { login: Faker::Internet.unique.username, ip: ips.sample } }
 
 while created_posts < 100
   user = users[created_posts % users.size]
-  response = create_post(user, Faker::Lorem.sentence(word_count: 3), Faker::Lorem.paragraph, ips.sample)
+  response = create_post(user: user, title: Faker::Lorem.sentence(word_count: 3), body: Faker::Lorem.paragraph)
   created_posts += 1 if response.is_a?(Net::HTTPSuccess)
 end
 
@@ -60,10 +60,9 @@ unique_bodies = Array.new(2000) { Faker::Lorem.paragraph }
 
 posts = Array.new(posts_to_create) do
   {
-    login: users.sample,
+    user: users.sample,
     title: unique_titles.sample,
-    body: unique_bodies.sample,
-    ip: ips.sample
+    body: unique_bodies.sample
   }  
 end
 
@@ -71,7 +70,7 @@ batch_size = 500
 
 Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
-    response = create_post(post[:login], post[:title], post[:body], post[:ip])
+    response = create_post(user: post[:user], title: post[:title], body: post[:body])
     created_posts += 1 if response.is_a?(Net::HTTPSuccess)
   end
 
