@@ -30,7 +30,7 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def create_post
-    @post = @user.posts.build(post_params)
+    @post = @user.posts.build(post_params_with_ip)
   end
 
   def find_or_create_user
@@ -38,11 +38,15 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :ip)
+    params.require(:post).permit(:title, :body)
   end
 
   def user_params
-    params.require(:user).permit(:login)
+    params.require(:user).permit(:login, :ip)
+  end
+
+  def post_params_with_ip
+    post_params.merge(ip: user_params[:ip])
   end
 
   def record_invalid(e)

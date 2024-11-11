@@ -17,7 +17,7 @@ class Post < ApplicationRecord
     joins(:user)
     .select("posts.ip, array_agg(DISTINCT users.login) AS author_logins")
     .group("posts.ip")
-    .having("COUNT(posts.id) > 1")
+    .having("COUNT(posts.id) >= 1")
     .order("posts.ip")
   }
 
