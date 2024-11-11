@@ -63,10 +63,10 @@ The application exposes the following API endpoints:
       --header 'Content-Type: application/json' \
       --data '{
           "user": {
-              "login": "john_doe"
+              "login": "john_doe",
+              "ip":"123.456",
           },
           "title": "Meu titulo",
-          "ip":"123.456",
           "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vestibulum quam cursus pharetra vehicula. Aliquam euismod sodales scelerisque. Aenean aliquam, justo sit amet fermentum sagittis, quam ipsum lobortis velit, quis feugiat sem lore faucibus metus. Cras aliquam posuere metus, elementum ultricies ipsum eleifend a. Vivamus sagittis diam eu nisi euismod tincidunt. Cras non felis tortor. Maecenas aliquam dui dui, sed vulputate erat venenatis in."
 
       }'
@@ -75,10 +75,10 @@ The application exposes the following API endpoints:
     ```json
     {
       "user": {
-          "login": "john_doe"
+          "login": "john_doe",
+          "ip":"123.456"
       },
         "title": "Meu titulo",
-        "ip":"123.456",
         "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vestibulum quam cursus pharetra vehicula. Aliquam euismod sodales scelerisque. Aenean aliquam, justo sit amet fermentum sagittis, quam ipsum lobortis velit, quis feugiat sem lore faucibus metus. Cras aliquam posuere metus, elementum ultricies ipsum eleifend a. Vivamus sagittis diam eu nisi euismod tincidunt. Cras non felis tortor. Maecenas aliquam dui dui, sed vulputate erat venenatis in."
     }
     ```
