@@ -1,6 +1,6 @@
 require 'net/http'
 
-def create_post(user: ,title: , body:)
+def create_post(user:, title:, body:)
   uri = URI("http://localhost:3000/api/v1/posts")
   http = Net::HTTP.new(uri.host, uri.port)
 
@@ -17,7 +17,7 @@ def create_post(user: ,title: , body:)
   http.request(request)
 end
 
-def create_rating(post_id, user_id)
+def create_rating(post_id:, user_id:)
   value = [1, 2, 3, 4, 5].sample
 
   uri = URI("http://localhost:3000/api/v1/ratings")
@@ -34,42 +34,43 @@ def create_rating(post_id, user_id)
 end
 
 puts 'Cleaning up the database'
-  Rating.delete_all
-  Post.delete_all
-  User.delete_all
+Rating.delete_all
+Post.delete_all
+User.delete_all
 puts 'Database cleaned up'
 
 puts 'Creating Users and Posts via API'
 
 ips = 50.times.map { Faker::Internet.ip_v4_address }
-users = []
-created_posts = 0
-posts_to_create = 200
 users = Array.new(100) { { login: Faker::Internet.unique.username, ip: ips.sample } }
+posts_to_create = 200_000
+created_posts = 0
 
-while created_posts < 100
-  user = users[created_posts % users.size]
+users.each do |user|
   response = create_post(user: user, title: Faker::Lorem.sentence(word_count: 3), body: Faker::Lorem.paragraph)
   created_posts += 1 if response.is_a?(Net::HTTPSuccess)
 end
 
-puts "#{users.size} users created at #{Time.zone.now}."
+puts "Created initial posts for each user. Total: #{created_posts} posts."
 
+remaining_posts = posts_to_create - created_posts
 unique_titles = Array.new(2000) { Faker::Lorem.sentence(word_count: 3) }
 unique_bodies = Array.new(2000) { Faker::Lorem.paragraph }
 
-posts = Array.new(posts_to_create) do
+posts = Array.new(remaining_posts) do
   {
     user: users.sample,
     title: unique_titles.sample,
     body: unique_bodies.sample
-  }  
+  }
 end
 
 batch_size = 500
 
 Parallel.each(posts.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
+    break if created_posts >= posts_to_create
+
     response = create_post(user: post[:user], title: post[:title], body: post[:body])
     created_posts += 1 if response.is_a?(Net::HTTPSuccess)
   end
@@ -89,7 +90,7 @@ created_ratings = 0
 Parallel.each(posts_to_rate.in_groups_of(batch_size, false), in_threads: 30) do |batch|
   batch.each do |post|
     user_id = User.pluck(:id).sample
-    response = create_rating(post.id, user_id)
+    response = create_rating(post_id: post.id, user_id: user_id)
     created_ratings += 1 if response.is_a?(Net::HTTPSuccess)
   end
 
