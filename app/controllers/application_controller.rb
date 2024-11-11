@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
   private
 
   def handle_parse_error(exception)
-    render json: { error: 'Invalid JSON format' }, status: :bad_request
+    render json: { error: "Invalid JSON format" }, status: :bad_request
   end
 
   def params_missing(exception)
