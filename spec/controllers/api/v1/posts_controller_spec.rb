@@ -53,6 +53,22 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         expect(json_response['errors']).to include("User can't be blank")
       end
     end
+
+    context 'when params are missing' do
+      let(:missing_attributes) do
+        {
+          post: { title: 'Title', body: 'Body' }
+        }
+      end
+
+      it 'returns bad request' do
+        post :create, params: missing_attributes
+
+        expect(response).to have_http_status(:bad_request)
+        json_response = response.parsed_body
+        expect(json_response['error']).to eq('param is missing or the value is empty: user')
+      end
+    end
   end
 
   describe 'GET #ips_list' do
