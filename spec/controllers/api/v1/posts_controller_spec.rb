@@ -28,7 +28,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       end
     end
 
-    context 'with valid attributes and useroes exists' do
+    context 'with valid attributes and user does exists' do
       let!(:user) { create(:user, login: 'john_doe') }
 
       it 'does not creates a new user and creates a new post' do
