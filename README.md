@@ -57,7 +57,7 @@ The application exposes the following API endpoints:
 ### 1. **POST api/v1/posts**
 - **Description**: Create a new post.
 - **Example Request using `curl`**:
-    To rate a post:
+    To create a post:
     ```bash
     curl --location 'http://localhost:3000/api/v1/posts' \
       --header 'Content-Type: application/json' \
