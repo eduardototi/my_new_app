@@ -1,7 +1,3 @@
-# JetRocks - Ruby Test Task
-
-The Ruby Test Task application was developed as part of a technical test for the Web Developer position at JetRocks. The primary goal was to demonstrate my skills in Ruby on Rails, as well as my ability to build a functional and well-structured application within a limited timeframe.
-
 ## Description
 
 The application allows users to:
